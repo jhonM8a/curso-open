@@ -94,5 +94,16 @@ class JPQLTest {
 	
 	}
 	
+	@Test
+	@DisplayName("Select conditional clients with more for accounts")
+	void selectWhereClientWithMoreForAccounts() {
+		String jpql = "SELECT cli FROM Cliente cli WHERE size(cli.cuentas)>4";
 
+		List<Cliente> clientes = entityManager.createQuery(jpql).
+				getResultList();
+		clientes.forEach(cliente->{
+			LOGGER.info("Nombre: "+cliente.getNombre());
+		});			
+		
+	}
 }
