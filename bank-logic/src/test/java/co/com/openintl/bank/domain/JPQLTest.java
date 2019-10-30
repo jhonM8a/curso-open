@@ -62,8 +62,37 @@ class JPQLTest {
 		clientes.forEach(cliente->{
 			LOGGER.info("ID: "+cliente.getClieId());
 			LOGGER.info("Nombre: "+cliente.getNombre());
-			});
+			LOGGER.info("Tipo documento: "+cliente.getTipoDocumento());
+		});
 			
 	}
+	@Test
+	@DisplayName("Select conditional clients with join")
+	void selectWhereClientJoin() {
+		String jpql = "SELECT cli FROM Cliente cli WHERE cli.tipoDocumento.nombre =: documentoDesc";
+		List<Cliente> clientes = entityManager.createQuery(jpql).
+				setParameter("documentoDesc", "CEDULA").
+				getResultList();
+		clientes.forEach(cliente->{
+			LOGGER.info("ID: "+cliente.getClieId());
+			LOGGER.info("Nombre: "+cliente.getNombre());
+			LOGGER.info("Tipo documento: "+cliente.getTipoDocumento());
+		});
+							
+	}
+	
+	@Test
+	@DisplayName("Select conditional clients with LIKE")
+	void selectWhereClientLike() {
+		String jpql = "SELECT cli FROM Cliente cli WHERE cli.nombre like : nombre";
+		List<Cliente> clientes = entityManager.createQuery(jpql).
+				setParameter("nombre", "%j%").
+				getResultList();
+		clientes.forEach(cliente->{
+			LOGGER.info("Nombre: "+cliente.getNombre());
+		});	
+	
+	}
+	
 
 }
