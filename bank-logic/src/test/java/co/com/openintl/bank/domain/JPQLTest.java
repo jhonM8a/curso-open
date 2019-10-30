@@ -44,12 +44,26 @@ class JPQLTest {
 		Query query = entityManager.createQuery(jpql);
 		List<Cliente> clientes = query.getResultList();
 		
-		for (Cliente cliente : clientes) {
+		clientes.forEach(cliente->{
 			LOGGER.info("ID: "+cliente.getClieId());
 			LOGGER.info("Nombre: "+cliente.getNombre());
-		}
+		});	
 		
+	}
+	
+	@Test
+	@DisplayName("Select conditional clients")
+	void selectWhereClient() {
+		String jpql = "SELECT cli FROM Cliente cli WHERE cli.tipoDocumento.tdocId =: tdocId";
+		List<Cliente> clientes = entityManager.createQuery(jpql).
+				setParameter("tdocId", 1L).
+				getResultList();
 		
+		clientes.forEach(cliente->{
+			LOGGER.info("ID: "+cliente.getClieId());
+			LOGGER.info("Nombre: "+cliente.getNombre());
+			});
+			
 	}
 
 }
