@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import co.com.openintl.bank.dto.ResultArimeticasDTO;
+
 class JPQLTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JPQLTest.class);
 	private EntityManagerFactory entityManagerFactory;
@@ -106,4 +108,46 @@ class JPQLTest {
 		});			
 		
 	}
+	@Test
+	@DisplayName("Select artimecthis")
+	void selectartimecthiss() {	
+		
+		String jpql = "SELECT "
+				+ "max(cue.saldo), "
+				+ "min(cue.saldo), "
+				+ "avg(saldo), "
+				+ "COUNT(cue.saldo) FROM Cuenta cue";
+		
+		Object[] object = (Object[])entityManager.createQuery(jpql).getSingleResult();
+		LOGGER.info("max: "+object[0]);
+		LOGGER.info("min: "+object[1]);
+		LOGGER.info("avg: "+object[2]);
+		LOGGER.info("COUNT: "+object[3]);
+
+
+	}
+	
+	@Test
+	@DisplayName("Select artimecthis with DTO")
+	void selectartimecdto() {	
+		
+		String jpql = "SELECT "
+				+ "new co.com.openintl.bank.dto.ResultArimeticasDTO("
+				+ "max(cue.saldo), "
+				+ "min(cue.saldo), "
+				+ "avg(saldo), "
+				+ "COUNT(cue.saldo)"
+				+ ") FROM Cuenta cue";
+		
+		ResultArimeticasDTO arimeticasDTO = 
+				(ResultArimeticasDTO)entityManager.
+				createQuery(jpql).
+				getSingleResult();
+		
+		assertNotNull(arimeticasDTO);
+		assertNotEquals(0, arimeticasDTO.getMax());
+
+
+		
+	}	
 }
