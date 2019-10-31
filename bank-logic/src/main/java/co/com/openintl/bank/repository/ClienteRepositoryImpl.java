@@ -45,7 +45,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 	@Override
 	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
-
+		findById(id).ifPresent(cliente->delete(cliente));
 	}
 
 	@Override
