@@ -20,7 +20,7 @@
 		 
 		
 		
-		<Root level="info">
+		<Root level="debug">
 			<AppenderRef ref="Console-Appender" />
 		</Root>
 	</Loggers>

@@ -50,11 +50,39 @@ class ClienteCRUDSpringTest {
 		entityManager.persist(cliente);
 	}
 	
+	
+	
 	@Test
 	@DisplayName("findById")
 	@Transactional(readOnly = true)
 	void consultar_() {
 		Cliente cliente = entityManager.find(Cliente.class, 6769L);
 		assertNotNull(cliente);
+	}
+	@Test
+	@DisplayName("updaTE")
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	void update() {
+
+		Cliente cliente = entityManager.find(Cliente.class, clieId);
+		assertNotNull(cliente);
+		
+		cliente.setEmail("jhhihih");
+		entityManager.merge(cliente);
+
+	}
+	
+	@Test
+	@DisplayName("remove")
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	void remove() {
+
+		Cliente cliente = entityManager.find(Cliente.class, clieId);
+		assertNotNull(cliente);
+		
+		entityManager.remove(cliente);
+
 	}	
+		
+	
 }
