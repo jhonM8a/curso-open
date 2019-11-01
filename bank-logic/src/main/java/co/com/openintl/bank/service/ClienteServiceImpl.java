@@ -11,16 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 import co.com.openintl.bank.domain.Cliente;
 import co.com.openintl.bank.repository.ClienteRepository;
 import co.com.openintl.bank.repository.TipoDocumentoRepository;
+
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	private TipoDocumentoRepository tipoDocumentoRepository;
-	
-	
+
+	@Autowired
+	private Validator validator;
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Cliente save(Cliente entity) throws Exception {
@@ -56,4 +64,24 @@ public class ClienteServiceImpl implements ClienteService {
 		return null;
 	}
 
+	public void validar(Cliente cliente) throws Exception {
+		try {
+			Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(cliente);
+
+			if (constraintViolations.size() > 0) {
+				StringBuilder strMessage = new StringBuilder();
+
+				for (ConstraintViolation<Cliente> constraintViolation : constraintViolations) {
+					strMessage.append(constraintViolation.getPropertyPath().toString());
+					strMessage.append(" - ");
+					strMessage.append(constraintViolation.getMessage());
+					strMessage.append(". \n");
+				}
+
+				throw new Exception(strMessage.toString());
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }
