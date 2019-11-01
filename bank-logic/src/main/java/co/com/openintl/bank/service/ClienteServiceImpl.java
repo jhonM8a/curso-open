@@ -66,6 +66,9 @@ public class ClienteServiceImpl implements ClienteService {
 
 	public void validar(Cliente cliente) throws Exception {
 		try {
+			if(cliente==null) {
+				throw new Exception("El cliente es nulo");
+			}
 			Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(cliente);
 
 			if (constraintViolations.size() > 0) {
