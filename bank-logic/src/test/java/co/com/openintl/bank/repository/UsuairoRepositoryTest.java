@@ -17,7 +17,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.com.openintl.bank.domain.Cliente;
 import co.com.openintl.bank.domain.Usuario;
 
 @ExtendWith(SpringExtension.class)
