@@ -3,12 +3,12 @@ package co.com.openintl.bank.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.openintl.bank.domain.Cliente;
-import co.com.openintl.bank.domain.TipoDocumento;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/applicationContext.xml")
-@Rollback(false)
+@Rollback(true) //Realiza rollback de todo
 class ClienteRepositoryTest {
 
 	@Autowired
@@ -43,7 +43,7 @@ class ClienteRepositoryTest {
 		Long time = date.getTime();
 
 	    Random random = new Random();
-		this.clientId = time/random.nextInt(2);
+		this.clientId = time/100000;
 	}
 
 	@Test
@@ -65,6 +65,44 @@ class ClienteRepositoryTest {
 		cliente.setTipoDocumento(tipoDocumentoRepository.findById(1L).get());
 		
 		clienteRepository.save(cliente);
+	}
+
+	
+	@Test
+	@DisplayName("Find client with Id")
+	void findById() {
+		Long cli = 1L; //Cliente debe existir
+		assertTrue(clienteRepository.findById(cli).isPresent());
+	}
+	
+	@Test
+	@DisplayName("Update client")
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	void update() {
+		Long cli = 1L; //Cliente debe existir
+		assertTrue(clienteRepository.findById(cli).isPresent());
+		
+		Cliente cliente =  clienteRepository.findById(cli).get();
+		cliente.setActivo("N");
+		
+		clienteRepository.save(cliente);
+	}
+	
+	@Test
+	@DisplayName("Delete client")
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	void delete() {
+		Long cli = 2L; //Cliente debe existir
+		assertTrue(clienteRepository.findById(cli).isPresent());
+		Cliente cliente = clienteRepository.findById(cli).get();
+		clienteRepository.delete(cliente);
+	}
+	
+	@Test
+	@DisplayName("find all client")
+	void findAll() {
+		List<Cliente> clientes = clienteRepository.findAll();
+		assertFalse(clientes.isEmpty());
 	}
 
 }
