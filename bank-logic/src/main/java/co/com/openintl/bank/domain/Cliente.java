@@ -12,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 @Entity
 @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
@@ -20,27 +24,33 @@ public class Cliente implements Serializable {
 	
 	@Id
 	@Column(name = "clie_id")
-	
+	@NotNull
 	private Long clieId;
 	
-	
+	@NotNull
+	@Size(min = 1,max=1, message = "El indicativo solo debe de tener 1 caracter")
 	private String activo;
 	
-	
+	@NotNull
+	@Size(min = 5, max=50)
 	private String direccion;
 	
-	
+	@NotNull
+	@Size(min = 5, max=50)
+	@Email
 	private String email;
 	
-	
+	@NotNull
+	@Size(min = 5, max=100)
 	private String nombre;
 	
-	
+	@NotNull
+	@Size(min = 5, max=50)
 	private String telefono;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tdoc_id")
-	
+	@NotNull
 	private TipoDocumento tipoDocumento;
 	
 	@OneToMany(mappedBy = "cliente")

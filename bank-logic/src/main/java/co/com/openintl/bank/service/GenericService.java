@@ -7,6 +7,8 @@ public interface GenericService<T, ID> {
 
 	T save(T entity) throws Exception;
 	
+	T update(T entity) throws Exception;
+	
 	Optional<T> findById(ID id);
 	
 	void delete(T entity) throws Exception;
@@ -14,4 +16,6 @@ public interface GenericService<T, ID> {
 	void deleteById(ID id) throws Exception;
 	
 	List<T> findAll();
+	
+	
 }
