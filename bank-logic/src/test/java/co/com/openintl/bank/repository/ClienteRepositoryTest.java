@@ -31,7 +31,7 @@ class ClienteRepositoryTest {
 	@Autowired
 	TipoDocumentoRepository tipoDocumentoRepository;
 	
-	private Long clientId; 
+	private Long clientId = 7898L; 
 
 	@BeforeEach
 	void setup() {

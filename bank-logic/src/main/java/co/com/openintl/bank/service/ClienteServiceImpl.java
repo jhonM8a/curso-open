@@ -94,6 +94,7 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Cliente update(Cliente entity) throws Exception {
 		// TODO Auto-generated method stub
 		validar(entity);

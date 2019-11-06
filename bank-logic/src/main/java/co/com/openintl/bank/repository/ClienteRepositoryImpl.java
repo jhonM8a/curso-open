@@ -19,7 +19,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 	@Override
 	public Cliente save(Cliente entitty) {
 		// TODO Auto-generated method stub
-		if (!entityManager.contains(entitty)) {
+		if (!entityManager.contains(entitty) && !findById(entitty.getClieId()).isPresent()) {
 			entityManager.persist(entitty);
 		}else{
 			entityManager.merge(entitty);

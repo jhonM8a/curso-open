@@ -19,7 +19,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 	@Override
 	public Usuario save(Usuario entitty) {
 		// TODO Auto-generated method stub
-		if (!entityManager.contains(entitty)) {
+		if (!entityManager.contains(entitty) && !findById(entitty.getUsuUsuario()).isPresent()) {
 			entityManager.persist(entitty);
 		}else{
 			entityManager.merge(entitty);

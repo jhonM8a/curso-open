@@ -66,5 +66,34 @@ class ClienteServiceTest {
 		assertTrue(cliente.isPresent());
 
 	}
+	
+	@Test
+	@DisplayName("Update client")
+	void update() {
+		Optional<Cliente> cliente = clienteService.findById(2L);
+		assertTrue(cliente.isPresent());
+		
+		Cliente cliente2 = cliente.get();
+		cliente2.setActivo("N");
+		cliente2.setEmail("jhon.ochoa2@openintl.com");
+		
+		try {
+			clienteService.update(cliente2);
+		} catch (Exception e) {
+			// TODO: handle exception
+			assertNull(e,  e.getMessage());
+		}
+	}
+	
+	@Test
+	@DisplayName("Delete client with accounts associated")
+	void delete() {
+		try {
+			clienteService.deleteById(1L);
+		} catch (Exception e) {
+			assertNotNull(e,e.getMessage());
+		}
+	}
+	
 
 }

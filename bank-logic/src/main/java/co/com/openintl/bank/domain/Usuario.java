@@ -2,6 +2,9 @@ package co.com.openintl.bank.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -18,10 +21,14 @@ public class Usuario implements Serializable {
 
 	@Id
 	@Column(name="usu_usuario")
+	@NotNull
 	private String usuUsuario;
-
+	
+	@NotNull
+	@Size(min =1, max =1)
 	private String activo;
-
+	
+	@NotNull
 	private String clave;
 
 	@Column(name="fecha_creacion")
@@ -29,9 +36,10 @@ public class Usuario implements Serializable {
 
 	@Column(name="fecha_modificacion")
 	private Timestamp fechaModificacion;
-
+	@NotNull
 	private BigDecimal identificacion;
-
+	@NotNull
+	@Size(min = 1,max = 50)
 	private String nombre;
 
 	@Column(name="usu_creador")
