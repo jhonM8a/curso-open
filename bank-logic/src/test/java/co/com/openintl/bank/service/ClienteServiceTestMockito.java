@@ -3,6 +3,7 @@ package co.com.openintl.bank.service;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.Optional;
@@ -18,13 +19,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import co.com.openintl.bank.domain.Cliente;
+import co.com.openintl.bank.domain.TipoDocumento;
 import co.com.openintl.bank.repository.ClienteRepository;
 import co.com.openintl.bank.repository.TipoDocumentoRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ClienteServiceTestMockito {
 	@InjectMocks
-	private ClienteService clienteService;
+	private ClienteService clienteService = new ClienteServiceImpl();
 	@Mock
 	private TipoDocumentoRepository tipoDocumentoRepository;
 
@@ -34,11 +36,29 @@ class ClienteServiceTestMockito {
 	@Mock
 	private Validator validator;
 	
+	Cliente cliente;
+	
 	@BeforeEach
 	public void setup() {
+		
+	
 		assertNotNull(clienteService);
 		assertNotNull(tipoDocumentoRepository);
+		TipoDocumento tipoDocumento = new TipoDocumento();
+		tipoDocumento.setActivo("S");
+		tipoDocumento.setTdocId(1L);
+		tipoDocumento.setNombre("CEDULA");
+		when(tipoDocumentoRepository.findById(1L)).thenReturn(Optional.ofNullable(tipoDocumento));
+		
+		cliente = new Cliente();
+		cliente.setActivo("S");
+		cliente.setClieId(7889L);
+		cliente.setDireccion("Cll 48 #94-97");
+		cliente.setEmail("jhon.ochoa@unillanos.edu.co");
+		cliente.setNombre("Jhon Mario");
+		cliente.setTelefono("6666555");
 
+		cliente.setTipoDocumento(tipoDocumentoRepository.findById(1L).get());
 	}
 
 	@Test
@@ -69,7 +89,8 @@ class ClienteServiceTestMockito {
 	@Test
 	@DisplayName("Find client")
 	void findById() {
-		Optional<Cliente> cliente = clienteService.findById(1L);
+		when(clienteRepository.findById(7889L)).thenReturn(Optional.ofNullable(cliente));
+		Optional<Cliente> cliente = clienteService.findById(7889L);
 		assertTrue(cliente.isPresent());
 
 	}
@@ -77,7 +98,8 @@ class ClienteServiceTestMockito {
 	@Test
 	@DisplayName("Update client")
 	void update() {
-		Optional<Cliente> cliente = clienteService.findById(2L);
+		when(clienteRepository.findById(7889L)).thenReturn(Optional.ofNullable(cliente));
+		Optional<Cliente> cliente = clienteService.findById(7889L);
 		assertTrue(cliente.isPresent());
 		
 		Cliente cliente2 = cliente.get();
@@ -95,8 +117,10 @@ class ClienteServiceTestMockito {
 	@Test
 	@DisplayName("Delete client with accounts associated")
 	void delete() {
+		when(clienteRepository.findById(7889L)).thenReturn(Optional.ofNullable(cliente));
+
 		try {
-			clienteService.deleteById(1L);
+			clienteService.deleteById(7889L);
 		} catch (Exception e) {
 			assertNotNull(e,e.getMessage());
 		}
