@@ -66,7 +66,28 @@ public class TransaccionServiceImpl implements TransaccionService {
 	@Override
 	public Long consignacion(String cuenId, BigDecimal valor, String usuUsuario) throws Exception {
 		validar(cuenId, valor, usuUsuario);		
-		return null;
+		Cuenta cuenta = cuentaRepository.findById(cuenId).get();
+		Usuario usuario = usuarioRepository.findById(usuUsuario).get();
+
+		
+		Transaccion transaccion = new Transaccion();
+		transaccion.setCuenta(cuenta);
+		transaccion.setFecha(new Timestamp(System.currentTimeMillis()));
+		transaccion.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+		transaccion.setTranId(null);
+		
+		TipoTransaccion tipoTransaccion = tipoTransaccionRepository.findById(2L).get();
+		transaccion.setTipoTransaccion(tipoTransaccion);
+		transaccion.setUsuario(usuario);
+		transaccion.setUsuCreador(usuUsuario);
+		transaccion.setUsuModificador(usuUsuario);
+		transaccion.setValor(valor);
+		
+		cuenta.setSaldo(cuenta.getSaldo().add(valor));
+		cuentaRepository.save(cuenta);
+		transaccion = transaccionRepository.save(transaccion);
+		
+		return transaccion.getTranId();
 	}
 
 	@Override
