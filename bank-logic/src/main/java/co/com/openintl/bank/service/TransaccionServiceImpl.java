@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.com.openintl.bank.domain.Cuenta;
 import co.com.openintl.bank.domain.TipoTransaccion;
@@ -30,7 +33,10 @@ public class TransaccionServiceImpl implements TransaccionService {
 	
 	@Autowired
 	private TransaccionRepository transaccionRepository;
+	
+	private final static String CUENTA_BANCO = "9999-9999-9999-9999";
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Long retirar(String cuenId, BigDecimal valor, String usuUsuario) throws Exception {
 		
 		validar(cuenId, valor, usuUsuario);
@@ -64,6 +70,7 @@ public class TransaccionServiceImpl implements TransaccionService {
 
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Long consignacion(String cuenId, BigDecimal valor, String usuUsuario) throws Exception {
 		validar(cuenId, valor, usuUsuario);		
 		Cuenta cuenta = cuentaRepository.findById(cuenId).get();
@@ -91,10 +98,46 @@ public class TransaccionServiceImpl implements TransaccionService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Long transferencia(String cuenIdOrigen, String cuenIdDestino, BigDecimal valor, String usuUsuario)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(cuenIdDestino==null || cuenIdOrigen ==null) {
+			throw new Exception("# de cuentas no validos");
+			
+		}
+		if( cuenIdDestino.trim().equals(cuenIdOrigen)) {
+			throw new Exception("# de cuentas no validos, son validos");
+		}
+		
+		retirar(cuenIdOrigen, valor, usuUsuario);
+		
+		consignacion(cuenIdDestino, valor, usuUsuario);
+		
+		retirar(cuenIdOrigen, new BigDecimal(2000), usuUsuario);
+		
+		consignacion(CUENTA_BANCO, new BigDecimal(2000), usuUsuario);
+
+		Cuenta cuenta = cuentaRepository.findById(cuenIdOrigen).get();
+		Usuario usuario = usuarioRepository.findById(usuUsuario).get();
+
+		
+		Transaccion transaccion = new Transaccion();
+		transaccion.setCuenta(cuenta);
+		transaccion.setFecha(new Timestamp(System.currentTimeMillis()));
+		transaccion.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+		transaccion.setTranId(null);
+		
+		TipoTransaccion tipoTransaccion = tipoTransaccionRepository.findById(3L).get();
+		transaccion.setTipoTransaccion(tipoTransaccion);
+		transaccion.setUsuario(usuario);
+		transaccion.setUsuCreador(usuUsuario);
+		transaccion.setUsuModificador(usuUsuario);
+		transaccion.setValor(valor);
+		
+		transaccion = transaccionRepository.save(transaccion);
+		
+		return transaccion.getTranId();
 	}
 	
 	private void validar(String cuenId, BigDecimal valor, String usuUsuario) throws Exception {

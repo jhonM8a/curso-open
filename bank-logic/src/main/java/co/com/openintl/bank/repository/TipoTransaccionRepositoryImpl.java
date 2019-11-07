@@ -24,7 +24,7 @@ public class TipoTransaccionRepositoryImpl implements TipoTransaccionRepository 
 	@Override
 	public Optional<TipoTransaccion> findById(Long id) {
 		Optional<TipoTransaccion> tipoTransaccion = Optional.ofNullable(entityManager.find(TipoTransaccion.class, id));
-		return null;
+		return tipoTransaccion;
 	}
 
 	@Override
