@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,5 +47,18 @@ public class ClienteController {
 		List<Cliente> listaCliente = clienteService.findAll();
 		List<ClienteDTO> listaClienteDTO = clienteMapper.toClientesDTO(listaCliente);
 		return ResponseEntity.ok().body(listaClienteDTO);
+	}
+	
+	@PostMapping("/save")
+	public ResponseEntity<?> save(@RequestBody ClienteDTO clienteDTO){
+		
+		try {
+			Cliente cliente = clienteMapper.dtoToEntity(clienteDTO);
+			cliente=clienteService.save(cliente);
+			clienteDTO=clienteMapper.entityToDTO(cliente);
+			return ResponseEntity.ok().body(clienteDTO);
+		}catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 }
