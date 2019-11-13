@@ -1,5 +1,6 @@
 package co.com.open.bank.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +24,26 @@ public class ClienteController {
 
 	@Autowired
 	ClienteMapper clienteMapper;
-	
+
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<?> findByid(@PathVariable("id") Long id) {
 		Optional<Cliente> clienteOptional = clienteService.findById(id);
 
 		if (!clienteOptional.isPresent()) {
-			return ResponseEntity.ok("");
+			return ResponseEntity.badRequest().body("");
 		}
 
 		Cliente cliente = clienteOptional.get();
 		ClienteDTO clienteDTO = clienteMapper.entityToDTO(cliente);
-		
+
 		return ResponseEntity.ok().body(clienteDTO);
+	}
+
+	@GetMapping("/findAll")
+	public ResponseEntity<?> findAll() {
+
+		List<Cliente> listaCliente = clienteService.findAll();
+		List<ClienteDTO> listaClienteDTO = clienteMapper.toClientesDTO(listaCliente);
+		return ResponseEntity.ok().body(listaClienteDTO);
 	}
 }
