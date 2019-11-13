@@ -33,6 +33,14 @@ public class ClienteDTO {
 	@NotNull
 	private Long tdocId;
 
+	public Long getTdocId() {
+		return tdocId;
+	}
+
+	public void setTdocId(Long tdocId) {
+		this.tdocId = tdocId;
+	}
+
 	public ClienteDTO() {
 		super();
 	}
