@@ -7,27 +7,27 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-public class RetirarDTO {
+
+public class ConsignarDTO {
 
 	@NotNull
-	@Size(min = 19, max = 19)
+	@Size(min = 19, max = 19 ) 
 	private String cuenId;
-
+	
 	@NotEmpty
 	@NotNull
 	@Positive
 	private BigDecimal valor;
-
+	
 	@NotEmpty
 	@NotNull
 	private String usuUsuario;
 
-	public RetirarDTO() {
+	public ConsignarDTO() {
 		super();
 	}
 
-	public RetirarDTO(@NotNull @Size(min = 19, max = 19) String cuenId, @NotEmpty @NotNull @Positive BigDecimal valor,
-			@NotEmpty @NotNull String usuUsuario) {
+	public ConsignarDTO(String cuenId, BigDecimal valor, String usuUsuario) {
 		super();
 		this.cuenId = cuenId;
 		this.valor = valor;
