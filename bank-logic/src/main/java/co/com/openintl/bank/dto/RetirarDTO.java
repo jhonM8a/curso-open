@@ -13,12 +13,12 @@ public class RetirarDTO {
 	@Size(min = 19, max = 19)
 	private String cuenId;
 
-	@NotEmpty
+	
 	@NotNull
 	@Positive
 	private BigDecimal valor;
 
-	@NotEmpty
+	
 	@NotNull
 	private String usuUsuario;
 
