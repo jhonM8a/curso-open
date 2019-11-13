@@ -69,7 +69,7 @@ public class ClienteController {
 			clienteDTO=clienteMapper.entityToDTO(cliente);
 			return ResponseEntity.ok().body(clienteDTO);
 		}catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class ClienteController {
 			clienteDTO=clienteMapper.entityToDTO(cliente);
 			return ResponseEntity.ok().body(clienteDTO);
 		}catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
 		}
 	}
 	
@@ -93,7 +93,7 @@ public class ClienteController {
 			clienteService.deleteById(id);
 			return ResponseEntity.ok("");
 		}catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
 		}
 	}
 	
