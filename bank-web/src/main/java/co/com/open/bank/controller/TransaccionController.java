@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.com.openintl.bank.dto.ConsignarDTO;
 import co.com.openintl.bank.dto.RetirarDTO;
 import co.com.openintl.bank.service.TransaccionService;
 
@@ -32,6 +33,19 @@ public class TransaccionController {
 		try {
 			Long idTransaccionLong = transaccionService.retirar(retirarDTO.getCuenId(), retirarDTO.getValor(),
 					retirarDTO.getUsuUsuario());
+			return ResponseEntity.ok().body(idTransaccionLong);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
+
+		}
+
+	}
+	
+	@PostMapping("/consignar")
+	public ResponseEntity<?> consignar(@Valid @RequestBody ConsignarDTO consignarDTO) {
+		try {
+			Long idTransaccionLong = transaccionService.retirar(consignarDTO.getCuenId(), consignarDTO.getValor(),
+					consignarDTO.getUsuUsuario());
 			return ResponseEntity.ok().body(idTransaccionLong);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
