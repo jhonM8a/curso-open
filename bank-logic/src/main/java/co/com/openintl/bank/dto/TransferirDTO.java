@@ -9,17 +9,17 @@ import javax.validation.constraints.Size;
 
 public class TransferirDTO {
 
-	@NotEmpty
+	
 	@NotNull
 	@Size(min = 19, max = 19)
 	private String cuenIdOrigen;
 
-	@NotEmpty
+	
 	@NotNull
 	@Size(min = 19, max = 19)
 	private String cuenIdDestino;
 
-	@NotEmpty
+	
 	@NotNull
 	@Positive
 	private BigDecimal valor;
@@ -32,15 +32,17 @@ public class TransferirDTO {
 		super();
 	}
 
-	public TransferirDTO(@NotEmpty @NotNull @Size(min = 19, max = 19) String cuenIdOrigen,
-			@NotEmpty @NotNull @Size(min = 19, max = 19) String cuenIdDestino,
-			@NotEmpty @NotNull @Positive BigDecimal valor, @NotNull @Size(min = 5, max = 50) String usuUsuario) {
+
+	public TransferirDTO(@NotNull @Size(min = 19, max = 19) String cuenIdOrigen,
+			@NotNull @Size(min = 19, max = 19) String cuenIdDestino, @NotNull @Positive BigDecimal valor,
+			@NotNull @Size(min = 5, max = 50) String usuUsuario) {
 		super();
 		this.cuenIdOrigen = cuenIdOrigen;
 		this.cuenIdDestino = cuenIdDestino;
 		this.valor = valor;
 		this.usuUsuario = usuUsuario;
 	}
+
 
 	public String getCuenIdOrigen() {
 		return cuenIdOrigen;

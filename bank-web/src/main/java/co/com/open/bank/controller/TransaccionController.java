@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.openintl.bank.dto.ConsignarDTO;
 import co.com.openintl.bank.dto.RetirarDTO;
+import co.com.openintl.bank.dto.TransferirDTO;
 import co.com.openintl.bank.service.TransaccionService;
 
 @RestController
@@ -40,7 +41,7 @@ public class TransaccionController {
 		}
 
 	}
-	
+
 	@PostMapping("/consignar")
 	public ResponseEntity<?> consignar(@Valid @RequestBody ConsignarDTO consignarDTO) {
 		try {
@@ -52,6 +53,19 @@ public class TransaccionController {
 
 		}
 
+	}
+
+	@PostMapping("/transferir")
+	public ResponseEntity<?> transferir(@Valid @RequestBody TransferirDTO transferirDTO) {
+
+		try {
+			Long idTransaccion = transaccionService.transferencia(transferirDTO.getCuenIdOrigen(),
+					transferirDTO.getCuenIdDestino(), transferirDTO.getValor(), transferirDTO.getUsuUsuario());
+		
+			return ResponseEntity.ok().body(idTransaccion);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
+		}
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

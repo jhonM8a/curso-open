@@ -27,12 +27,15 @@ public class ConsignarDTO {
 		super();
 	}
 
-	public ConsignarDTO(String cuenId, BigDecimal valor, String usuUsuario) {
+
+	public ConsignarDTO(@NotNull @Size(min = 19, max = 19) String cuenId, @NotNull @Positive BigDecimal valor,
+			@NotNull String usuUsuario) {
 		super();
 		this.cuenId = cuenId;
 		this.valor = valor;
 		this.usuUsuario = usuUsuario;
 	}
+
 
 	public String getCuenId() {
 		return cuenId;

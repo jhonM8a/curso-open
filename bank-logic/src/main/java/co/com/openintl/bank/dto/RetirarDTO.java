@@ -26,13 +26,17 @@ public class RetirarDTO {
 		super();
 	}
 
-	public RetirarDTO(@NotNull @Size(min = 19, max = 19) String cuenId, @NotEmpty @NotNull @Positive BigDecimal valor,
-			@NotEmpty @NotNull String usuUsuario) {
+
+
+	public RetirarDTO(@NotNull @Size(min = 19, max = 19) String cuenId, @NotNull @Positive BigDecimal valor,
+			@NotNull String usuUsuario) {
 		super();
 		this.cuenId = cuenId;
 		this.valor = valor;
 		this.usuUsuario = usuUsuario;
 	}
+
+
 
 	public String getCuenId() {
 		return cuenId;
