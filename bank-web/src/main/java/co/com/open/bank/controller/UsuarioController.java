@@ -24,78 +24,88 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.openintl.bank.domain.Cliente;
+import co.com.openintl.bank.domain.Usuario;
 import co.com.openintl.bank.dto.ClienteDTO;
-import co.com.openintl.bank.mapper.ClienteMapper;
-import co.com.openintl.bank.service.ClienteService;
+import co.com.openintl.bank.dto.UsuarioDTO;
+import co.com.openintl.bank.mapper.UsuarioMapper;
+import co.com.openintl.bank.service.UsuarioService;
 
 @RestController
-@RequestMapping("/cliente")
-public class ClienteController {
+@RequestMapping("/usuario")
+public class UsuarioController {
 
 	@Autowired
-	ClienteService clienteService;
+	private  UsuarioService usuarioService;
 
 	@Autowired
-	ClienteMapper clienteMapper;
-
+	private UsuarioMapper usuarioMapper;
+	
+	
+	
+	
 	@GetMapping("/findById/{id}")
-	public ResponseEntity<?> findByid(@PathVariable("id") Long id) {
-		Optional<Cliente> clienteOptional = clienteService.findById(id);
+	public ResponseEntity<?> findByid(@PathVariable("id") String id) {
+		Optional<Usuario> usuarioOptional = usuarioService.findById(id);
 
-		if (!clienteOptional.isPresent()) {
+		if (!usuarioOptional.isPresent()) {
 			return ResponseEntity.badRequest().body("");
 		}
 
-		Cliente cliente = clienteOptional.get();
-		ClienteDTO clienteDTO = clienteMapper.entityToDTO(cliente);
+		Usuario usuario = usuarioOptional.get();
+		UsuarioDTO usuarioDTO = usuarioMapper.enityToDTO(usuario);
 
-		return ResponseEntity.ok().body(clienteDTO);
+		return ResponseEntity.ok().body(usuarioDTO);
 	}
-
+	
+	
+	
 	@GetMapping("/findAll")
-	public ResponseEntity<?> findAll() {
-
-		List<Cliente> listaCliente = clienteService.findAll();
-		List<ClienteDTO> listaClienteDTO = clienteMapper.toClientesDTO(listaCliente);
-		return ResponseEntity.ok().body(listaClienteDTO);
+	public ResponseEntity<?> findAll(){
+		List<Usuario> usuarios = usuarioService.findAll();
+		List<UsuarioDTO> usuariosDTO = usuarioMapper.toUsuariosDTO(usuarios);
+		
+		
+		return ResponseEntity.ok().body(usuariosDTO);
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<?> save(@Valid @RequestBody ClienteDTO clienteDTO){
+	public ResponseEntity<?> save(@Valid @RequestBody UsuarioDTO usuarioDTO){
 		
 		try {
-			Cliente cliente = clienteMapper.dtoToEntity(clienteDTO);
-			cliente=clienteService.save(cliente);
-			clienteDTO=clienteMapper.entityToDTO(cliente);
-			return ResponseEntity.ok().body(clienteDTO);
+			Usuario usuario = usuarioMapper.dtoToEntity(usuarioDTO);
+			usuario=usuarioService.save(usuario);
+			usuarioDTO=usuarioMapper.enityToDTO(usuario);
+			return ResponseEntity.ok().body(usuarioDTO);
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
 		}
 	}
+	
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@Valid @RequestBody ClienteDTO clienteDTO){
+	public ResponseEntity<?> update(@Valid @RequestBody UsuarioDTO usuarioDTO){
 		
 		try {
-			Cliente cliente = clienteMapper.dtoToEntity(clienteDTO);
-			cliente=clienteService.update(cliente);
-			clienteDTO=clienteMapper.entityToDTO(cliente);
-			return ResponseEntity.ok().body(clienteDTO);
+			Usuario usuario = usuarioMapper.dtoToEntity(usuarioDTO);
+			usuario=usuarioService.update(usuario);
+			usuarioDTO=usuarioMapper.enityToDTO(usuario);
+			return ResponseEntity.ok().body(usuarioDTO);
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
 		}
-	}
+	}	
+	
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+	public ResponseEntity<?> delete(@PathVariable("id") String id){
 		
 		try {
-			clienteService.deleteById(id);
+			usuarioService.deleteById(id);
 			return ResponseEntity.ok("");
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(new ResponseError("400", e.getMessage()));
 		}
-	}
+	}	
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -109,4 +119,5 @@ public class ClienteController {
 	    });
 	    return errors;
 	}
+	
 }
