@@ -7,19 +7,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+
 public class ConsignarDTO {
 
 	@NotNull
-	@Size(min = 19, max = 19)
+	@Size(min = 19, max = 19 ) 
 	private String cuenId;
-
-	@NotEmpty
-
+	
+	
+	@NotNull
 	@Positive
 	private BigDecimal valor;
-
-	@NotEmpty
-
+	
+	
+	@NotNull
 	private String usuUsuario;
 
 	public ConsignarDTO() {
