@@ -1,4 +1,4 @@
-package co.com.open.bank.controller;
+package co.com.openintl.bank.controller;
 
 import java.util.HashMap;
 import java.util.List;

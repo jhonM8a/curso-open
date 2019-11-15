@@ -1,4 +1,4 @@
-package co.com.open.bank.controller;
+package co.com.openintl.bank.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
