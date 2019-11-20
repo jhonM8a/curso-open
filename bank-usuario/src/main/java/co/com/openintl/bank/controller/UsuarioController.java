@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.com.openintl.bank.domain.Cliente;
 import co.com.openintl.bank.domain.Usuario;
-import co.com.openintl.bank.dto.ClienteDTO;
 import co.com.openintl.bank.dto.UsuarioDTO;
 import co.com.openintl.bank.mapper.UsuarioMapper;
 import co.com.openintl.bank.service.UsuarioService;
