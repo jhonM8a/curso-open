@@ -36,7 +36,7 @@ public class ActiveMQConfig {
 
 	@Bean
 	public Queue queue() {
-		return new ActiveMQQueue("test-queue");
+		return new ActiveMQQueue("retiros");
 	}
 
 	@Bean
