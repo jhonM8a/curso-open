@@ -2,14 +2,12 @@ package co.com.openintl.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-@EnableEurekaClient
-public class BankClienteApplication {
+public class BankActiveMqApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BankClienteApplication.class, args);
+		SpringApplication.run(BankActiveMqApplication.class, args);
 	}
 
 }

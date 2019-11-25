@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.com.openintl.bank.domain.Cliente;
 import co.com.openintl.bank.domain.Usuario;
-import co.com.openintl.bank.repository.TipoDocumentoRepository;
 import co.com.openintl.bank.repository.TipoUsuarioRepository;
 import co.com.openintl.bank.repository.UsuarioRepository;
 
