@@ -32,8 +32,10 @@ export class ClienteSaveComponent implements OnInit {
       this.showMsg = true;
       this.msg= 'Cliente saved'
     }, error=>{
+      debugger
       this.showMsg=true;
-      this.msg=error.error.message;
+      Object.values(error.error).map(x =>{this.msg = x+this.msg})
+      
 
     });
   }
